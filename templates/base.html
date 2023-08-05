@@ -118,101 +118,90 @@
             </div>
 
           {% endfor %}
-        {% endif %}    
+        {% endif %}
+
+        </div>   
+        <br/><br/>
+        <div class="row">
+          <div class="col">
+          <div class="card border-dark mb-3">
+            <div class="card-header">Upcoming Tickets on the Sprint
+            </div>
+            <div class="card-body">
+              <table class="table table-striped">
+                <thead>
+                  <tr>
+                    <th scope="col">Project</th>
+                    <th scope="col">Task</th>
+                    <th scope="col">Tracking</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td>DSK</td>
+                    <td><p class="card-text"><i class="las la-angle-double-right"></i> Some quick example text to build on the card title and make up the bulk of the card's content. 
+                    </p></td>
+                    <td><button type="button" class="btn btn-primary btn-sm" id="start-tracking-button"><i class="las la-play"></i>&nbsp;&nbsp;Start Tracking</button></td>
+                  </tr>
+                  <tr>
+                    <td>SM</td>
+                    <td><p class="card-text"><i class="las la-angle-double-right"></i> Some quick example text to build on the card title and make up the bulk of the card's content. 
+                    </p></td>
+                    <td><button type="button" class="btn btn-primary btn-sm"><i class="las la-play"></i>&nbsp;&nbsp;Start Tracking</button></td>
+                  </tr>
+                  <tr>
+                    <td>DSK</td>
+                    <td><p class="card-text"><i class="las la-angle-double-right"></i> Some quick example text to build on the card title and make up the bulk of the card's content. 
+                    </p></td>
+                    <td><button type="button" class="btn btn-primary btn-sm"><i class="las la-play"></i>&nbsp;&nbsp;Start Tracking</button></td>
+                  </tr>
+                </tbody>
+              </table>
+              
+              
+            </div>
+          </div>
+        </div> 
     </div>
 
     <Br/><br/>
     <div class="row">
-      <div class="col-sm-8">
-        <div class="row">
-          <div class="card border-secondary mb-3">
-            <div class="card-header">Daily Work Log Mapping</div>
-            <div class="card-body text-secondary">
-              <div id="calendar"></div>
+
+          <div class="col">
+            <div class="row">
+              <div class="col-sm-8"><div class="card border-secondary mb-3">
+                <div class="card-header">Daily Work Log Mapping</div>
+                <div class="card-body text-secondary">
+                  <div id="calendar"></div>
+                </div>
+              </div></div>
+              <div class="col-sm-4"><div class="card border-secondary mb-3">
+                <div class="card-header">Hours worked today</div>
+                <div class="card-body text-secondary">
+                  <div id="chart3"></div>
+                </div>
+              </div></div>
             </div>
-          </div>
+          
 
           <div class="card border-secondary mb-3">
-            <div class="card-header">2nd August, 2023</div>
+            <div class="card-header">Pending work hours vs Executed work hours</div>
             <div class="card-body text-secondary">
               <div id="chart"></div>
             </div>
           </div>
 
-        </div>
+          <div class="card border-secondary mb-3">
+            <div class="card-header">Tracked Work Hours [ Last 10 days ]</div>
+            <div class="card-body text-secondary">
+              <div id="chart2"></div>
+            </div>
+          </div>
+       
         
       </div>
       
-      <div class="col-sm-4">
-        <div class="card border-secondary mb-3">
-          <div class="card-header">2nd August, 2023</div>
-          <div class="card-body text-secondary">
-            <div class="list-group">
-              <a href="#" class="list-group-item list-group-item-action" aria-current="true">
-                <div class="d-flex w-100 justify-content-between">
-                  <h5 class="mb-1">List group item heading</h5>
-                  
-                </div>
-                <p class="mb-1">Some placeholder content in a paragraph.</p>
-                <small>And some small print.</small>
-              </a>
-              
-              <a href="#" class="list-group-item list-group-item-action">
-                <div class="d-flex w-100 justify-content-between">
-                  <h5 class="mb-1">List group item heading</h5>
-                  
-                </div>
-                <p class="mb-1">Some placeholder content in a paragraph.</p>
-                <small class="text-muted">And some muted small print.</small>
-              </a>
-
-              <a href="#" class="list-group-item list-group-item-action">
-                <div class="d-flex w-100 justify-content-between">
-                  <h5 class="mb-1">List group item heading</h5>
-                  
-                </div>
-                <p class="mb-1">Some placeholder content in a paragraph.</p>
-                <small class="text-muted">And some muted small print.</small>
-              </a>
-
-              <a href="#" class="list-group-item list-group-item-action">
-                <div class="d-flex w-100 justify-content-between">
-                  <h5 class="mb-1">List group item heading</h5>
-                  
-                </div>
-                <p class="mb-1">Some placeholder content in a paragraph.</p>
-                <small class="text-muted">And some muted small print.</small>
-              </a>
-
-              <a href="#" class="list-group-item list-group-item-action">
-                <div class="d-flex w-100 justify-content-between">
-                  <h5 class="mb-1">List group item heading</h5>
-                  
-                </div>
-                <p class="mb-1">Some placeholder content in a paragraph.</p>
-                <small class="text-muted">And some muted small print.</small>
-              </a>
-
-              <a href="#" class="list-group-item list-group-item-action">
-                <div class="d-flex w-100 justify-content-between">
-                  <h5 class="mb-1">List group item heading</h5>
-                  
-                </div>
-                <p class="mb-1">Some placeholder content in a paragraph.</p>
-                <small class="text-muted">And some muted small print.</small>
-              </a>
-              <a href="#" class="list-group-item list-group-item-action">
-                <div class="d-flex w-100 justify-content-between">
-                  <h5 class="mb-1">List group item heading</h5>
-                  
-                </div>
-                <p class="mb-1">Some placeholder content in a paragraph.</p>
-                <small class="text-muted">And some muted small print.</small>
-              </a>
-            </div>
-          </div>
-        </div>
-      </div>
+      
       <center><p>Updated at: {{ updated_at }}</p></center><br/>
       <center><button type="button" class="btn btn-primary btn-sm" onclick="update_report_data();">Refresh Data</button></center>
       <br/><br/>
@@ -229,6 +218,33 @@
     <script src="https://cdn.jsdelivr.net/npm/@event-calendar/build@1.5.1/event-calendar.min.js"></script>
 
     <script>
+      function send_pulse_request(ticket_id)
+      {
+        $.post('/pulse/'+ticket_id+'/', function(data) {
+          alert(data);
+          setTimeout(send_pulse_request,5000);
+        });
+      }
+
+      function start_tracking(ticket_id)
+      {
+        $.post('/start-tracking/'+ticket_id+'/', function(data) {
+          alert(data);
+          $('#end-tracking-button').show();
+          $('#start-tracking-button').hide();
+          send_pulse_request();
+        });
+      }
+
+      function end_tracking(ticket_id)
+      {
+        $.post('/end-tracking/'+ticket_id+'/', function(data) {
+          alert(data);
+          $('#end-tracking-button').hide();
+          $('#start-tracking-button').show();
+        });
+      }
+
       function update_report_data()
         {
           $('#spinner').show();
@@ -324,7 +340,174 @@
         chart.render();
       
 
+        var options = {
+          series: [
+          {
+            data: [
+              {
+                x: 'Operations',
+                y: [2800, 4500]
+              },
+              {
+                x: 'Customer Success',
+                y: [3200, 4100]
+              },
+              {
+                x: 'Engineering',
+                y: [2950, 7800]
+              },
+              {
+                x: 'Marketing',
+                y: [3000, 4600]
+              },
+              {
+                x: 'Product',
+                y: [3500, 4100]
+              },
+              {
+                x: 'Data Science',
+                y: [4500, 6500]
+              },
+              {
+                x: 'Sales',
+                y: [4100, 5600]
+              }
+            ]
+          }
+        ],
+          chart: {
+          height: 390,
+          type: 'rangeBar',
+          zoom: {
+            enabled: false
+          }
+        },
+        colors: ['#EC7D31', '#36BDCB'],
+        plotOptions: {
+          bar: {
+            horizontal: true,
+            isDumbbell: true,
+            dumbbellColors: [['#EC7D31', '#36BDCB']]
+          }
+        },
+        title: {
+          text: 'Paygap Disparity'
+        },
+        legend: {
+          show: true,
+          showForSingleSeries: true,
+          position: 'top',
+          horizontalAlign: 'left',
+          customLegendItems: ['Female', 'Male']
+        },
+        fill: {
+          type: 'gradient',
+          gradient: {
+            gradientToColors: ['#36BDCB'],
+            inverseColors: false,
+            stops: [0, 100]
+          }
+        },
+        grid: {
+          xaxis: {
+            lines: {
+              show: true
+            }
+          },
+          yaxis: {
+            lines: {
+              show: false
+            }
+          }
+        }
+        };
 
+        var chart = new ApexCharts(document.querySelector("#chart2"), options);
+        chart.render();
+
+
+        var options = {
+          series: [75],
+          chart: {
+          height: 258,
+          type: 'radialBar',
+          toolbar: {
+            show: true
+          }
+        },
+        plotOptions: {
+          radialBar: {
+            startAngle: -135,
+            endAngle: 225,
+             hollow: {
+              margin: 0,
+              size: '70%',
+              background: '#fff',
+              image: undefined,
+              imageOffsetX: 0,
+              imageOffsetY: 0,
+              position: 'front',
+              dropShadow: {
+                enabled: true,
+                top: 3,
+                left: 0,
+                blur: 4,
+                opacity: 0.24
+              }
+            },
+            track: {
+              background: '#fff',
+              strokeWidth: '67%',
+              margin: 0, // margin is in pixels
+              dropShadow: {
+                enabled: true,
+                top: -3,
+                left: 0,
+                blur: 4,
+                opacity: 0.35
+              }
+            },
+        
+            dataLabels: {
+              show: true,
+              name: {
+                offsetY: -10,
+                show: true,
+                color: '#888',
+                fontSize: '17px'
+              },
+              value: {
+                formatter: function(val) {
+                  return parseInt(val);
+                },
+                color: '#111',
+                fontSize: '36px',
+                show: true,
+              }
+            }
+          }
+        },
+        fill: {
+          type: 'gradient',
+          gradient: {
+            shade: 'dark',
+            type: 'horizontal',
+            shadeIntensity: 0.5,
+            gradientToColors: ['#ABE5A1'],
+            inverseColors: true,
+            opacityFrom: 1,
+            opacityTo: 1,
+            stops: [0, 100]
+          }
+        },
+        stroke: {
+          lineCap: 'round'
+        },
+        labels: ['Hours'],
+        };
+
+        var chart = new ApexCharts(document.querySelector("#chart3"), options);
+        chart.render();
         
 
         let ec = new EventCalendar(document.getElementById('calendar'), {

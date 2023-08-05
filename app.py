@@ -7,6 +7,7 @@ from dotenv import load_dotenv
 from datetime import datetime as date
 from time import ctime
 from firebase_admin import credentials, firestore, initialize_app
+import time 
 
 
 # load enviroment variables from .env file in root folder
@@ -19,6 +20,8 @@ default_app = initialize_app(cred)
 db = firestore.client()
 jira_progress_report = db.collection('jira_progress_report')
 work_hours_data = db.collection('work_hours_data')
+upcoming_tickets = db.collection('upcoming_tickets')
+tracking_events = db.collection('tracking_events')
 
 # Initialise flask app
 app = Flask(__name__)
@@ -63,6 +66,7 @@ def index_page():
 def update_report_data():
     jira = JIRA(server=os.environ['JIRA_URL'],basic_auth=(os.environ['JIRA_EMAIL'], os.environ['JIRA_API_TOKEN']))
     projects = jira.projects()
+    boards = jira.boards()
     progress_report_data = {}
     progress_report_data['updated_at'] = ctime()
     for project in projects:
@@ -96,6 +100,62 @@ def update_report_data():
         progress_report_data[project.key]['total'] = len(total_issues)
         progress_report_data[project.key]['total_hours'] = total_issues_hours
 
+        for board in boards:
+            if project.key in board.name:
+                board_id = board.id
+        sprints = jira.sprints(board_id)
+        closed_sprints = 0
+        non_closed_sprints = []
+        for sprint in sprints:
+            if sprint.state == 'closed':
+                closed_sprints = closed_sprints + 1
+            else:
+                non_closed_sprints.append(sprint)
+        open_tickets = []
+        for active_sprint in non_closed_sprints:
+            tickets = jira.search_issues('assigned to me and has sprint_id')
+            for ticket in tickets:
+                open_tickets.append(ticket)
+
+        backlog_tickets = jira.search_issues('assigned to me and is in backlog')
+
+        tickets_data = {}
+        tickets_data['closed_sprints'] = closed_sprints
+        tickets_data['open_tickets'] = open_tickets
+        tickets_data['backlog_tickets'] = backlog_tickets
+        upcoming_tickets.document("1").update(tickets_data)
+
     jira_progress_report.document("1").update(progress_report_data)
     updated_at = progress_report_data.pop("updated_at")
     return updated_at
+
+
+@app.route("/start-tracking/<ticket_id>/", methods=['POST','GET'])
+def start_tracking(ticket_id):
+    tracking_data = {}
+    tracking_data['event_type'] = 'start'
+    tracking_data['ticket_id'] = ticket_id
+    tracking_data['timestamp'] = time.time()
+    tracking_events_document = tracking_events.document()
+    tracking_events_document.set(tracking_data)
+    return "ok"
+
+@app.route("/end-tracking/<ticket_id>/", methods=['POST','GET'])
+def end_tracking(ticket_id):
+    tracking_data = {}
+    tracking_data['event_type'] = 'end'
+    tracking_data['ticket_id'] = ticket_id
+    tracking_data['timestamp'] = time.time()
+    tracking_events_document = tracking_events.document()
+    tracking_events_document.set(tracking_data)
+    return "ok"
+
+@app.route("/pulse/<ticket_id>/", methods=['POST','GET'])
+def pulse_tracking(ticket_id):
+    tracking_data = {}
+    tracking_data['event_type'] = 'pulse'
+    tracking_data['ticket_id'] = ticket_id
+    tracking_data['timestamp'] = time.time()
+    tracking_events_document = tracking_events.document()
+    tracking_events_document.set(tracking_data)
+    return "ok"
