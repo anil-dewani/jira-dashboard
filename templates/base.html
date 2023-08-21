@@ -9,7 +9,7 @@
   </head>
   <body>
     
-    <nav class="navbar bg-light border-bottom border-body" data-bs-theme="light">
+    <nav id="navbar" class="navbar bg-light border-bottom border-body" data-bs-theme="light">
       <div class="container-fluid d-flex align-items-center justify-content-center">
         <a class="navbar-brand" href="#">
             <center>
@@ -35,6 +35,9 @@
             colors="primary:#4be1ec,secondary:#cb5eee"
             style="width:250px;height:250px">
         </lord-icon>
+        <br/>
+        <br/>
+        Updating...
       </center>
     </div>
 
@@ -91,32 +94,32 @@
 
         {% if jira_progress_report %}
           {% for key, value in jira_progress_report.items() %}
-          
-            <div class="col">
-              <div class="card border-secondary">
-                <h5 class="card-header">{{ value.name }}
-                  
-                  <div style="margin-top:10px;" class="progress-stacked">
-                    <div class="progress" role="progressbar" aria-label="Segment one" aria-valuenow="{{ value.to_do }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ (value.to_do * 100) / value.total }}%">
-                      <div class="progress-bar bg-danger">To Do</div>
+            {% if value.total > 0%}
+              <div class="col">
+                <div class="card border-secondary">
+                  <h5 class="card-header">{{ value.name }}
+                    
+                    <div style="margin-top:10px;" class="progress-stacked">
+                      <div class="progress" role="progressbar" aria-label="Segment one" aria-valuenow="{{ value.to_do }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ (value.to_do * 100) / value.total }}%">
+                        <div class="progress-bar bg-danger">To Do</div>
+                      </div>
+                      <div class="progress" role="progressbar" aria-label="Segment two" aria-valuenow="{{ value.in_progress }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ (value.in_progress * 100) / value.total }}%">
+                        <div class="progress-bar bg-dark">Working</div>
+                      </div>
+                      <div class="progress" role="progressbar" aria-label="Segment three" aria-valuenow="{{ value.total - value.to_do - value.in_progress}}" aria-valuemin="0" aria-valuemax="100" style="width: {{ ((value.total - value.to_do - value.in_progress) * 100) / value.total }}%">
+                        <div class="progress-bar bg-info">Done</div>
+                      </div>
                     </div>
-                    <div class="progress" role="progressbar" aria-label="Segment two" aria-valuenow="{{ value.in_progress }}" aria-valuemin="0" aria-valuemax="100" style="width: {{ (value.in_progress * 100) / value.total }}%">
-                      <div class="progress-bar bg-dark">Working</div>
-                    </div>
-                    <div class="progress" role="progressbar" aria-label="Segment three" aria-valuenow="{{ value.total - value.to_do - value.in_progress}}" aria-valuemin="0" aria-valuemax="100" style="width: {{ ((value.total - value.to_do - value.in_progress) * 100) / value.total }}%">
-                      <div class="progress-bar bg-info">Done</div>
-                    </div>
+                  </h5>
+                  <div class="card-body">
+                    <h6><i class="las la-tasks"></i> {{ value.to_do }} Pending Tickets</h6>
+                    <h6><i class="las la-stopwatch"></i> {{ value.to_do_hours }} hours to go</h6>
+                    <h6><i class="las la-calendar"></i> Deadline in 20 days</h6>
+                    <h6><i class="las la-crosshairs"></i> 3hrs/day needed</h6>
                   </div>
-                </h5>
-                <div class="card-body">
-                  <h6><i class="las la-tasks"></i> {{ value.to_do }} Pending Tickets</h6>
-                  <h6><i class="las la-stopwatch"></i> {{ value.to_do_hours }} hours to go</h6>
-                  <h6><i class="las la-calendar"></i> Deadline in 20 days</h6>
-                  <h6><i class="las la-crosshairs"></i> 3hrs/day needed</h6>
                 </div>
               </div>
-            </div>
-
+            {% endif %}
           {% endfor %}
         {% endif %}
 
@@ -141,19 +144,28 @@
                     <td>DSK</td>
                     <td><p class="card-text"><i class="las la-angle-double-right"></i> Some quick example text to build on the card title and make up the bulk of the card's content. 
                     </p></td>
-                    <td><button type="button" class="btn btn-primary btn-sm" id="start-tracking-button"><i class="las la-play"></i>&nbsp;&nbsp;Start Tracking</button></td>
+                    <td>
+                      <button type="button" class="btn btn-primary btn-sm" id="start-tracking-button"><i class="las la-play"></i>&nbsp;&nbsp;Start Tracking</button>
+                      <button style="display:none;" type="button" class="btn btn-danger btn-sm" id="end-tracking-button"><i class="las la-stop-circle"></i>&nbsp;&nbsp;End Tracking</button>
+                    </td>
                   </tr>
                   <tr>
                     <td>SM</td>
                     <td><p class="card-text"><i class="las la-angle-double-right"></i> Some quick example text to build on the card title and make up the bulk of the card's content. 
                     </p></td>
-                    <td><button type="button" class="btn btn-primary btn-sm"><i class="las la-play"></i>&nbsp;&nbsp;Start Tracking</button></td>
+                    <td>
+                      <button type="button" class="btn btn-primary btn-sm"><i class="las la-play"></i>&nbsp;&nbsp;Start Tracking</button>
+                      <button style="display:none;" type="button" class="btn btn-danger btn-sm" id="end-tracking-button"><i class="las la-stop-circle"></i>&nbsp;&nbsp;End Tracking</button>
+                    </td>
                   </tr>
                   <tr>
                     <td>DSK</td>
                     <td><p class="card-text"><i class="las la-angle-double-right"></i> Some quick example text to build on the card title and make up the bulk of the card's content. 
                     </p></td>
-                    <td><button type="button" class="btn btn-primary btn-sm"><i class="las la-play"></i>&nbsp;&nbsp;Start Tracking</button></td>
+                    <td>
+                      <button type="button" class="btn btn-primary btn-sm"><i class="las la-play"></i>&nbsp;&nbsp;Start Tracking</button>
+                      <button style="display:none;" type="button" class="btn btn-danger btn-sm" id="end-tracking-button"><i class="las la-stop-circle"></i>&nbsp;&nbsp;End Tracking</button>
+                    </td>
                   </tr>
                 </tbody>
               </table>
@@ -204,8 +216,13 @@
       
       <center><p>Updated at: {{ updated_at }}</p></center><br/>
       <center><button type="button" class="btn btn-primary btn-sm" onclick="update_report_data();">Refresh Data</button></center>
-      <br/><br/>
-      
+      <br/><br/><br/><br/>
+      <center>
+        <a href="https://github.com/anil-dewani/jira-dashboard"><i class="las la-external-link-alt"></i>&nbsp;&nbsp;Source Code</a><br/>
+        Developed with ❤️ by <a href="https://anildewani.com/">Anil Dewani</a>
+      </center>
+      <br/><br/><br/>
+      <br/><br/><br/>
     </div>
 
 
@@ -249,6 +266,7 @@
         {
           $('#spinner').show();
           $('#data_container').hide();
+          $('#navbar').hide();
           $.ajax({
             url: "/update", 
             success: function (data) {
