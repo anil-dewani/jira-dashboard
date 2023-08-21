@@ -54,10 +54,20 @@ def index_page():
     updated_at = report_data.pop("updated_at")
 
     # TODO: Fetch below values from firestore instead
+    dates = []
+    pending_work_hours = []
+    executed_work_hours = []
+    last_week_work_hours_data = work_hours_data.order_by("date").limit_to_last(7).get()
 
-    dates = "'01 Aug','02 Aug','03 Aug','04 Aug','05 Aug'"
-    pending_work_hours = "28, 30, 32, 20, 39"
-    executed_work_hours = "10, 20, 30, 10, 20"
+    for current_day_data in last_week_work_hours_data:
+        dates.append(str(current_day_data.to_dict()['date']).replace(",",""))
+        executed_work_hours.append(str(current_day_data.to_dict()['executed_work_hours']))
+        pending_work_hours.append(str(current_day_data.to_dict()['pending_work_hours']))
+
+    # convert list to comma seperated values
+    dates = "','".join(dates)
+    pending_work_hours = ",".join(pending_work_hours)
+    executed_work_hours = ",".join(executed_work_hours)
     max_work_hours = 44
 
     # TODO: pass a dict showing the next important tickets needing attention
