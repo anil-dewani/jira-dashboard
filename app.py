@@ -29,18 +29,41 @@ scheduler.api_enabled = True
 scheduler.init_app(app)
 scheduler.start()
 
-
-@scheduler.task('interval', id='update_work_hours_data', seconds=86400, misfire_grace_time=900)
+#86400
+@scheduler.task('interval', id='update_work_hours_data', seconds=10000, misfire_grace_time=900)
 def update_work_hours_data():
     work_hours_data_document = work_hours_data.document()
     work_hours_data_dict = {}
     work_hours_data_dict['date'] = date.today().strftime('%d %b %Y')
-    # TODO: do some calculations
-    work_hours_data_dict['executed_work_hours'] = 20
-    work_hours_data_dict['pending_work_hours'] = 40
-    work_hours_data_document.set(work_hours_data_dict)
 
-    # TODO: do a /update ajax call or direct function call to update the data once a day
+    # store old report data
+    old_report_data = jira_progress_report.document("1").get().to_dict()
+    old_report_data.pop("updated_at")
+
+    # update report data
+    update_report_data()
+
+    # new report data
+    new_report_data = jira_progress_report.document("1").get().to_dict()
+    new_report_data.pop("updated_at")
+    pending_work_hours_total = 0
+    total_todo_hours = 0
+    for project_data_key, project_data_value in new_report_data.items():
+        print(project_data_value)
+        pending_work_hours_total = pending_work_hours_total + project_data_value['to_do_hours']
+        total_todo_hours = total_todo_hours + project_data_value['total_hours']
+
+    old_todo_hours = 0
+    for project_data_key, project_data_value in old_report_data.items():
+        print(project_data_value)
+        old_todo_hours = old_todo_hours - project_data_value['to_do_hours']
+
+    # calculate differences and store for chart
+    work_hours_data_dict['executed_work_hours'] = total_todo_hours - old_todo_hours
+    work_hours_data_dict['pending_work_hours'] = pending_work_hours_total
+    work_hours_data_dict['timestamp'] = time.time()
+
+    work_hours_data_document.set(work_hours_data_dict)
 
     # TODO: calculate the hours worked today and set an css class value to be used on calendar
     print('Updated work hours data with fresh datapoints')
@@ -57,21 +80,24 @@ def index_page():
     dates = []
     pending_work_hours = []
     executed_work_hours = []
-    last_week_work_hours_data = work_hours_data.order_by("date").limit_to_last(7).get()
+    last_week_work_hours_data = work_hours_data.order_by("timestamp").limit_to_last(7).get()
 
     for current_day_data in last_week_work_hours_data:
-        dates.append(str(current_day_data.to_dict()['date']).replace(",",""))
+        dates.append(str(current_day_data.to_dict()['date']).replace(",", ""))
         executed_work_hours.append(str(current_day_data.to_dict()['executed_work_hours']))
         pending_work_hours.append(str(current_day_data.to_dict()['pending_work_hours']))
 
+    print(pending_work_hours)
+
+    max_work_hours = max(list(map(float, pending_work_hours))) + 30
+    print(max_work_hours)
     # convert list to comma seperated values
     dates = "','".join(dates)
     pending_work_hours = ",".join(pending_work_hours)
     executed_work_hours = ",".join(executed_work_hours)
-    max_work_hours = 44
-
+    upcoming_tickets_data = upcoming_tickets.document("1").get().to_dict()
     # TODO: pass a dict showing the next important tickets needing attention
-    return render_template('base.html', day_name=date.today().strftime("%A"), jira_progress_report=report_data, updated_at=updated_at, executed_work_hours=executed_work_hours, pending_work_hours=pending_work_hours, dates=dates, max_work_hours=max_work_hours)
+    return render_template('base.html', day_name=date.today().strftime("%A"), jira_progress_report=report_data, updated_at=updated_at, executed_work_hours=executed_work_hours, pending_work_hours=pending_work_hours, dates=dates, max_work_hours=max_work_hours,upcoming_tickets=upcoming_tickets_data)
 
 
 @app.route("/update")
@@ -111,33 +137,20 @@ def update_report_data():
         progress_report_data[project.key]['total'] = len(total_issues)
         progress_report_data[project.key]['total_hours'] = total_issues_hours
 
-        # for board in boards:
-        #     if project.key in board.name:
-        #         board_id = board.id
-        # sprints = jira.sprints(board_id)
-        # closed_sprints = 0
-        # non_closed_sprints = []
-        # for sprint in sprints:
-        #     if sprint.state == 'closed':
-        #         closed_sprints = closed_sprints + 1
-        #     else:
-        #         non_closed_sprints.append(sprint)
-        # open_tickets = []
-        # for active_sprint in non_closed_sprints:
-        #     tickets = jira.search_issues('assigned to me and has sprint_id')
-        #     for ticket in tickets:
-        #         open_tickets.append(ticket)
-
-        # backlog_tickets = jira.search_issues('assigned to me and is in backlog')
-
-        # tickets_data = {}
-        # tickets_data['closed_sprints'] = closed_sprints
-        # tickets_data['open_tickets'] = open_tickets
-        # tickets_data['backlog_tickets'] = backlog_tickets
-        # upcoming_tickets.document("1").update(tickets_data)
-
-        # TODO: store the number of hours updated for today
-
+    upcoming_tickets_data = {}
+    for board in boards:
+        sprints = jira.sprints(board.id)
+        closed_sprints = 0
+        for sprint in sprints:
+            if sprint.state == 'closed':
+                closed_sprints = closed_sprints + 1
+            else:
+                tickets = jira.search_issues("sprint = "+str(sprint.id)+" AND reporter = 'me@timefractal.com'")
+                upcoming_tickets_data[board.location.projectKey] = {}
+                for ticket in tickets[:5]:
+                    upcoming_tickets_data[board.location.projectKey][ticket.key] = ticket.get_field('summary')
+                
+    upcoming_tickets.document("1").update(upcoming_tickets_data)
     jira_progress_report.document("1").update(progress_report_data)
     updated_at = progress_report_data.pop("updated_at")
     return updated_at

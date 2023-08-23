@@ -8,7 +8,6 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@event-calendar/build@1.5.1/event-calendar.min.css">
   </head>
   <body>
-    
     <nav id="navbar" class="navbar bg-light border-bottom border-body" data-bs-theme="light">
       <div class="container-fluid d-flex align-items-center justify-content-center">
         <a class="navbar-brand" href="#">
@@ -25,7 +24,6 @@
         </a>
       </div>
     </nav>
-    
     <div class="container" id="spinner" style="display:none;">
       <Br/><br/><br/><br/><Br/><br/>
       <center>
@@ -125,6 +123,7 @@
 
         </div>   
         <br/><br/>
+        {% if upcoming_tickets %}
         <div class="row">
           <div class="col">
           <div class="card border-dark mb-3">
@@ -136,44 +135,31 @@
                   <tr>
                     <th scope="col">Project</th>
                     <th scope="col">Task</th>
-                    <th scope="col">Tracking</th>
+
                   </tr>
                 </thead>
                 <tbody>
-                  <tr>
-                    <td>DSK</td>
-                    <td><p class="card-text"><i class="las la-angle-double-right"></i> Some quick example text to build on the card title and make up the bulk of the card's content. 
-                    </p></td>
-                    <td>
-                      <button type="button" class="btn btn-primary btn-sm" id="start-tracking-button"><i class="las la-play"></i>&nbsp;&nbsp;Start Tracking</button>
-                      <button style="display:none;" type="button" class="btn btn-danger btn-sm" id="end-tracking-button"><i class="las la-stop-circle"></i>&nbsp;&nbsp;End Tracking</button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>SM</td>
-                    <td><p class="card-text"><i class="las la-angle-double-right"></i> Some quick example text to build on the card title and make up the bulk of the card's content. 
-                    </p></td>
-                    <td>
-                      <button type="button" class="btn btn-primary btn-sm"><i class="las la-play"></i>&nbsp;&nbsp;Start Tracking</button>
-                      <button style="display:none;" type="button" class="btn btn-danger btn-sm" id="end-tracking-button"><i class="las la-stop-circle"></i>&nbsp;&nbsp;End Tracking</button>
-                    </td>
-                  </tr>
-                  <tr>
-                    <td>DSK</td>
-                    <td><p class="card-text"><i class="las la-angle-double-right"></i> Some quick example text to build on the card title and make up the bulk of the card's content. 
-                    </p></td>
-                    <td>
-                      <button type="button" class="btn btn-primary btn-sm"><i class="las la-play"></i>&nbsp;&nbsp;Start Tracking</button>
-                      <button style="display:none;" type="button" class="btn btn-danger btn-sm" id="end-tracking-button"><i class="las la-stop-circle"></i>&nbsp;&nbsp;End Tracking</button>
-                    </td>
-                  </tr>
+                  {% for key, value in upcoming_tickets.items() %}
+                    {% for task_id, task_name in value.items() %}
+                    <tr>
+                      <td>{{ task_id }}</td>
+                      <td><p class="card-text"><i class="las la-angle-double-right"></i> {{ task_name }} 
+                      </p></td>
+                      <!--
+                      <td>
+                        <button type="button" class="btn btn-primary btn-sm" id="start-tracking-button"><i class="las la-play"></i>&nbsp;&nbsp;Start Tracking</button>
+                        <button style="display:none;" type="button" class="btn btn-danger btn-sm" id="end-tracking-button"><i class="las la-stop-circle"></i>&nbsp;&nbsp;End Tracking</button>
+                      </td>
+                      -->
+                    </tr>
+                    {% endfor %}
+                  {% endfor %}
                 </tbody>
               </table>
-              
-              
             </div>
           </div>
         </div> 
+        {% endif %}
     </div>
 
     <Br/><br/>
@@ -202,15 +188,6 @@
               <div id="chart"></div>
             </div>
           </div>
-
-          <div class="card border-secondary mb-3">
-            <div class="card-header">Tracked Work Hours [ Last 10 days ]</div>
-            <div class="card-body text-secondary">
-              <div id="chart2"></div>
-            </div>
-          </div>
-       
-        
       </div>
       
       
@@ -224,8 +201,6 @@
       <br/><br/><br/>
       <br/><br/><br/>
     </div>
-
-
 
     <!-- scripts -->
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
@@ -280,11 +255,6 @@
         });
         }
       $( document ).ready(function() {
-
-
-
-        
-
         var options = {
           series: [
           {
@@ -356,93 +326,6 @@
 
         var chart = new ApexCharts(document.querySelector("#chart"), options);
         chart.render();
-      
-
-        var options = {
-          series: [
-          {
-            data: [
-              {
-                x: 'Operations',
-                y: [2800, 4500]
-              },
-              {
-                x: 'Customer Success',
-                y: [3200, 4100]
-              },
-              {
-                x: 'Engineering',
-                y: [2950, 7800]
-              },
-              {
-                x: 'Marketing',
-                y: [3000, 4600]
-              },
-              {
-                x: 'Product',
-                y: [3500, 4100]
-              },
-              {
-                x: 'Data Science',
-                y: [4500, 6500]
-              },
-              {
-                x: 'Sales',
-                y: [4100, 5600]
-              }
-            ]
-          }
-        ],
-          chart: {
-          height: 390,
-          type: 'rangeBar',
-          zoom: {
-            enabled: false
-          }
-        },
-        colors: ['#EC7D31', '#36BDCB'],
-        plotOptions: {
-          bar: {
-            horizontal: true,
-            isDumbbell: true,
-            dumbbellColors: [['#EC7D31', '#36BDCB']]
-          }
-        },
-        title: {
-          text: 'Paygap Disparity'
-        },
-        legend: {
-          show: true,
-          showForSingleSeries: true,
-          position: 'top',
-          horizontalAlign: 'left',
-          customLegendItems: ['Female', 'Male']
-        },
-        fill: {
-          type: 'gradient',
-          gradient: {
-            gradientToColors: ['#36BDCB'],
-            inverseColors: false,
-            stops: [0, 100]
-          }
-        },
-        grid: {
-          xaxis: {
-            lines: {
-              show: true
-            }
-          },
-          yaxis: {
-            lines: {
-              show: false
-            }
-          }
-        }
-        };
-
-        var chart = new ApexCharts(document.querySelector("#chart2"), options);
-        chart.render();
-
 
         var options = {
           series: [75],
