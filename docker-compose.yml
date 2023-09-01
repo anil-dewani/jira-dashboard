@@ -1,0 +1,23 @@
+version: "3"
+
+services:
+  jira-dashboard:
+    build:
+      context: .
+      dockerfile: ./Dockerfile
+    image: jira-dashboard
+    platform: linux/x86_64
+    ports:
+      - "10002:10002"
+    labels:
+      - "traefik.enable=true"
+      - "traefik.http.routers.jira-dashboard.rule=Host(`dashboard.timefractal.com`)"
+      - "traefik.http.routers.jira-dashboard.service=jira-dashboard"
+      - "traefik.http.routers.jira-dashboard.entrypoints=websecure"
+      - "traefik.http.services.jira-dashboard.loadbalancer.server.port=10002"
+      - "traefik.http.routers.jira-dashboard.tls=true"
+      - "traefik.http.routers.jira-dashboard.tls.certresolver=letsencrypt"
+      - "traefik.http.services.jira-dashboard.loadbalancer.passhostheader=true"
+      - "traefik.http.routers.jira-dashboard.middlewares=compresstraefik"
+      - "traefik.http.middlewares.compresstraefik.compress=true"
+      - "traefik.docker.network=traefik-network"
