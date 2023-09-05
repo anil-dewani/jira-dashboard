@@ -1,0 +1,45 @@
+<!doctype html>
+<html>
+  <head>
+    <title>Jira Progress Reports - Index</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" crossorigin="anonymous">
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <link rel="stylesheet" href="https://maxst.icons8.com/vue-static/landings/line-awesome/line-awesome/1.3.0/css/line-awesome.min.css">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@event-calendar/build@1.5.1/event-calendar.min.css">
+  </head>
+  <body>
+    <nav id="navbar" class="navbar bg-light border-bottom border-body" data-bs-theme="light">
+      <div class="container-fluid d-flex align-items-center justify-content-center">
+        <a class="navbar-brand" href="#">
+            <center>
+              <lord-icon
+                  src="https://cdn.lordicon.com/rnuzkjnk.json"
+                  trigger="loop"
+                  delay="1500"
+                  colors="primary:#4bb3fd"
+                  style="width:150px;height:150px">
+              </lord-icon>
+              <p class="h5">Action Insight</p>
+            </center>
+        </a>
+      </div>
+    </nav>
+    <div class="container" id="data_container">
+      <br/><br/>
+      <center>
+      {% for user_info in users_data %}
+        <a href="/{{user_info['encoded_email']}}" class="btn btn-dark">{{ user_info['name'] }}</a><br/><br/>
+      {% endfor %}
+      </center>
+    </div>
+
+
+     <!-- scripts -->
+     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" crossorigin="anonymous"></script>
+     <script src="https://cdn.lordicon.com/bhenfmcm.js"></script>
+     <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
+     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.7.0/jquery.min.js" integrity="sha512-3gJwYpMe3QewGELv8k/BX9vcqhryRdzRMxVfq6ngyWXwo03GFEzjsUm8Q7RZcHPHksttq7/GFoxjCVUjkjvPdw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+     <script src="https://cdn.jsdelivr.net/npm/@event-calendar/build@1.5.1/event-calendar.min.js"></script>
+ 
+</body>
+</html>
