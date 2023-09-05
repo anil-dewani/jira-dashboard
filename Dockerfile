@@ -40,4 +40,4 @@ RUN chown -R app:app $APP_HOME
 
 USER app
 EXPOSE 10002
-ENTRYPOINT [ "gunicorn", "--bind=0.0.0.0:10002", "app:app" ]
+ENTRYPOINT [ "gunicorn", "-w", "4", "--bind=0.0.0.0:10002", "app:app" ]
