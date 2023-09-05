@@ -241,7 +241,7 @@
           $('#data_container').hide();
           $('#navbar').hide();
           $.ajax({
-            url: "/update", 
+            url: "/update/{{encoded_email}}/", 
             success: function (data) {
                 // Handle success here
                 location.reload();
