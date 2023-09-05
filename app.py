@@ -180,6 +180,11 @@ def dashboard_page(encoded_email):
     upcoming_tickets_data = (
         upcoming_tickets.document(jira_user.raw["emailAddress"]).get().to_dict()
     )
+    total_pending_work_hours = 0
+    for key, value in report_data.items():
+        if value["to_do_hours"]:
+            total_pending_work_hours = total_pending_work_hours + value["to_do_hours"]
+
     # TODO: pass a dict showing the next important tickets needing attention
     return render_template(
         "dashboard.html",
@@ -192,6 +197,7 @@ def dashboard_page(encoded_email):
         max_work_hours=max_work_hours,
         upcoming_tickets=upcoming_tickets_data,
         encoded_email=encode_email(jira_user.raw["emailAddress"]),
+        total_pending_work_hours=total_pending_work_hours,
     )
 
 

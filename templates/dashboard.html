@@ -172,7 +172,7 @@
                 </div>
               </div></div>
               <div class="col-sm-4"><div class="card border-secondary mb-3">
-                <div class="card-header">Hours worked today</div>
+                <div class="card-header">Hours to Work</div>
                 <div class="card-body text-secondary">
                   <div id="chart3"></div>
                 </div>
@@ -326,7 +326,7 @@
         chart.render();
 
         var options = {
-          series: [75],
+          series: [{{total_pending_work_hours}}],
           chart: {
           height: 258,
           type: 'radialBar',
