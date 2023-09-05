@@ -1,5 +1,9 @@
 version: "3"
 
+networks:
+  traefik-network:
+    external: true
+
 services:
   jira-dashboard:
     build:
@@ -9,6 +13,8 @@ services:
     platform: linux/x86_64
     ports:
       - "10002:10002"
+    networks:
+      - traefik-network
     labels:
       - "traefik.enable=true"
       - "traefik.http.routers.jira-dashboard.rule=Host(`dashboard.timefractal.com`)"
