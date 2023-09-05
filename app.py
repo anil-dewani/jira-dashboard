@@ -208,7 +208,7 @@ def update_report_data(encoded_email):
         to_do_issues = jira.search_issues(
             "project="
             + project.key
-            + " and status='To Do' AND reporter = '"
+            + " and status='To Do' AND assignee = '"
             + jira_user.raw["emailAddress"]
             + "'"
         )
@@ -225,7 +225,7 @@ def update_report_data(encoded_email):
         in_progress_issues = jira.search_issues(
             "project="
             + project.key
-            + " and status='In Progress' AND reporter = '"
+            + " and status='In Progress' AND assignee = '"
             + jira_user.raw["emailAddress"]
             + "'"
         )
@@ -244,7 +244,7 @@ def update_report_data(encoded_email):
         total_issues = jira.search_issues(
             "project="
             + project.key
-            + " AND reporter = '"
+            + " AND assignee = '"
             + jira_user.raw["emailAddress"]
             + "'"
         )
@@ -269,7 +269,7 @@ def update_report_data(encoded_email):
                 tickets = jira.search_issues(
                     "sprint = "
                     + str(sprint.id)
-                    + " AND reporter = '"
+                    + " AND assignee = '"
                     + jira_user.raw["emailAddress"]
                     + "'"
                 )
