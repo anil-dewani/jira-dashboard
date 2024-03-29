@@ -5,7 +5,7 @@ Flask based web application with provides a bird-eye view dashboard by connectin
 
 Tech stack:
 - [Flask](https://flask.palletsprojects.com/en/3.0.x/) as web framework
-- [APScheduler] as task scheduler
+- [APScheduler](https://apscheduler.readthedocs.io/en/3.x/userguide.html) as task scheduler
 - [Click‎](https://click.palletsprojects.com/en/8.1.x/) as CLI Framework
-- [Firebase Firestore] as cloud database
+- [Firebase Firestore](https://firebase.google.com/docs/firestore) as cloud database
 
