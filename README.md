@@ -9,3 +9,7 @@ Tech stack:
 - [Click‎](https://click.palletsprojects.com/en/8.1.x/) as CLI Framework
 - [Firebase Firestore](https://firebase.google.com/docs/firestore) as cloud database
 
+Screenshots:
+
+![Jira Dashboard Screenshot](https://i.imgur.com/6nDeZaF.jpeg)
+![Jira Dashboard Screenshot](https://i.imgur.com/SPxgla5.jpeg)
